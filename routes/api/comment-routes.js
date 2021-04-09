@@ -1,18 +1,21 @@
 const router = require('express').Router();
 const {
-    addComment,
-    removeComment
+  addComment,
+  removeComment,
+  addReply,
+  removeReply
 } = require('../../controllers/comment-controller');
 
 // /api/comments/<pizzaId>
-router
-.route('/:pizzaId')
-.post(addComment);
+router.route('/:pizzaId').post(addComment);
 
 // /api/comments/<pizzaId>/<commentId>
 router
-.route('/:pizzaId/:commentId') //you need two parameters to delete a comment. Remember that after deleting a particular comment, you need to know exactly which pizza that comment originated from.
-.delete(removeComment);
+  .route('/:pizzaId/:commentId')
+  .put(addReply)
+  .delete(removeComment);
 
+// /api/comments/<pizzaId>/<commentId>/<replyId>
+router.route('/:pizzaId/:commentId/:replyId').delete(removeReply);
 
 module.exports = router;
